@@ -1,0 +1,25 @@
+:root {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Open Sans", sans-serif;
+    font-optical-sizing: auto;
+    font-style: normal;
+}
+.rgba {
+    background: rgba(0, 0, 255, 0.3);
+}
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+    .static-width {
+        @apply mx-auto max-w-6xl px-4;
+    }
+
+    .menu {
+        @apply p-4 rounded-lg;
+    }
+}
