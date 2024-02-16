@@ -3,7 +3,7 @@ const FormBtn = ({ text, handleSubmit }) => {
         <button
             type="submit"
             className="btn btn-primary w-full mt-4 text-md"
-            onSubmit={(e) => handleSubmit(e)}
+            onSubmit={(e) => handleSubmit()}
         >
             {text}
         </button>
