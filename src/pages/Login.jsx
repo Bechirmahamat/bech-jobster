@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom'
+import { Link, Navigate, redirect } from 'react-router-dom'
 import { FcGoogle } from 'react-icons/fc'
 import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
@@ -11,6 +11,7 @@ const defaultState = {
     password: '',
     isMember: true,
 }
+
 const Login = () => {
     const [values, setValues] = useState(defaultState)
     const dispatch = useDispatch()
@@ -37,6 +38,7 @@ const Login = () => {
                 dispatch(registerUser({ name, email, password }))
             }
         }
+        return <Navigate to='/dashboard' />
     }
     const handleMember = () => {
         setValues({ ...values, ['isMember']: !values.isMember })
@@ -96,7 +98,7 @@ const Login = () => {
                         />
 
                         {values.isMember && (
-                            <div className=' mt-4 flex justify-between text-sm  '>
+                            <div className='text-xs mt-4 flex justify-between items-center  sm:text-sm  '>
                                 <div className='flex items-center gap-1'>
                                     <input
                                         type='checkbox'
@@ -104,8 +106,8 @@ const Login = () => {
                                     />
                                     <span>Remember me</span>
                                 </div>
-                                <Link to={'/'} className='link'>
-                                    Forget Password
+                                <Link to={'/'} className='link '>
+                                    Password Forget
                                 </Link>
                             </div>
                         )}
@@ -142,7 +144,7 @@ const Login = () => {
                                 onClick={() => handleMember()}
                             >
                                 {values.isMember
-                                    ? ' not a member ? create New Account'
+                                    ? ' not a member ? register'
                                     : 'Already a member? login'}
                             </button>
                         </div>

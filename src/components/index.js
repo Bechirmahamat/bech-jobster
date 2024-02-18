@@ -1,4 +1,7 @@
-export { default as Navbar } from "./Navbar";
-export { default as Hero } from "./Hero";
-export { default as FormInput } from "./FormInput";
-export { default as FormBtn } from "./FormBtn";
+export { default as Navbar } from './Navbar'
+export { default as Hero } from './Hero'
+export { default as FormInput } from './FormInput'
+export { default as FormBtn } from './FormBtn'
+export { default as Sidebar } from './SideBar'
+export { default as DashboardNav } from './DashboadNav'
+export { default as NavModal } from './NavModal'
