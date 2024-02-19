@@ -4,12 +4,16 @@ import { useSelector, useDispatch } from 'react-redux'
 import { inputs } from '../../data'
 import InputWihIcon from '../../components/InputWithIcon'
 import { useState } from 'react'
+import { toast } from 'react-toastify'
+import { updateUser } from '../../features/user/userSlice'
 const Profile = () => {
-    const { user } = useSelector((store) => store.userState)
+    const dispatch = useDispatch()
+    const { user, isLoading } = useSelector((store) => store.userState)
+    const { lastName, name } = user
+    const username = name.slice(0, 1) + lastName.slice(0, 1)
     const [values, setValues] = useState({
         name: user?.name || '',
         email: user?.email || '',
-        password: '',
         location: user.location || '',
         lastName: user.lastName || '',
     })
@@ -19,15 +23,23 @@ const Profile = () => {
             [e.target.name]: e.target.value,
         })
     }
-    const { lastName, name } = user
-    const username = name.slice(0, 1) + lastName.slice(0, 1)
+    const handleSubmit = (e) => {
+        e.preventDefault()
+        const { name, lastName, location, email } = values
+        if (!name || !lastName || !location || !email) {
+            toast.error('Please fill out all the inputs')
+            return
+        } else {
+            dispatch(updateUser(values))
+        }
+    }
     return (
         <section className='grid md:grid-cols-12 gap-x-6 gap-y-8'>
             <div className='md:col-span-4 bg-white rounded-2xl pb-4'>
                 <figure className='h-36 rounded-t-2xl bg-base-300 relative'>
                     <div className='absolute -bottom-8 ml-8'>
-                        <div className='avatar online placeholder'>
-                            <div className='bg-neutral text-neutral-content rounded-full w-20 outline outline-4 shadow-xl outline-white'>
+                        <div className='avatar z-[1] online placeholder'>
+                            <div className='bg-neutral text-neutral-content rounded-full  w-20 outline outline-4 shadow-xl outline-white'>
                                 <span className='text-lg uppercase'>
                                     {username}
                                 </span>
@@ -39,10 +51,7 @@ const Profile = () => {
                     <h2 className='text-lg capitalize font-semibold'>
                         {name + ' ' + lastName}
                     </h2>
-                    <p
-                        className=' text-sm
-text-sm flex mt-4 items-center gap-2 text-nowrap '
-                    >
+                    <p className=' text-sm flex mt-4 items-center gap-2 text-nowrap '>
                         <FaUserGroup />
                         <span className=' font-semibold'>1345</span>
                         <span className=''>Followers</span>
@@ -70,7 +79,21 @@ text-sm flex mt-4 items-center gap-2 text-nowrap '
                             />
                         )
                     })}
-                    <button className='btn btn-secondary'>Update</button>
+                    <button
+                        type='submit'
+                        className='btn btn-secondary'
+                        disabled={isLoading}
+                        onClick={(e) => handleSubmit(e)}
+                    >
+                        {isLoading ? (
+                            <>
+                                <span className='loading loading-dots loading-sm'></span>
+                                <span>submitting</span>
+                            </>
+                        ) : (
+                            <span> Update</span>
+                        )}
+                    </button>
                 </form>
             </div>
         </section>

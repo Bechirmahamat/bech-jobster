@@ -9,6 +9,10 @@
 .rgba {
     background: rgba(0, 0, 255, 0.3);
 }
+.active {
+    background: rgb(241 245 249);
+    color: #3f00e7;
+}
 
 @tailwind base;
 @tailwind components;

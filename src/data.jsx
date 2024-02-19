@@ -123,5 +123,6 @@ export const inputs = [
         name: 'password',
         label: 'password',
         type: 'password',
+        disabled: true,
     },
 ]

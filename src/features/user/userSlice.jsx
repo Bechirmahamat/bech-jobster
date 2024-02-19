@@ -13,7 +13,7 @@ export const registerUser = createAsyncThunk(
     async (user, thunkApi) => {
         try {
             const response = await customFetch.post('/auth/register', user)
-            console.log(response.data)
+            // console.log(response.data)
             return response.data
         } catch (error) {
             return thunkApi.rejectWithValue(
@@ -22,6 +22,31 @@ export const registerUser = createAsyncThunk(
         }
     }
 )
+
+export const updateUser = createAsyncThunk(
+    'user/updateUser',
+    async (user, thunkApi) => {
+        try {
+            const response = await customFetch.patch('/auth/updateUser', user, {
+                headers: {
+                    Authorization: `Bearer ${
+                        thunkApi.getState().userState.user.token
+                    }`,
+                },
+            })
+            return response.data
+        } catch (error) {
+            if (error.response.status === 401) {
+                toast.error('Seems Like you need to login again')
+                return thunkApi.dispatch(logout())
+            }
+            return thunkApi.rejectWithValue(
+                error?.response?.data?.msg || 'something went Wrong'
+            )
+        }
+    }
+)
+
 export const loginUser = createAsyncThunk(
     'user/loginUser',
     async (user, thunkApi) => {
@@ -74,6 +99,20 @@ const userSlice = createSlice({
                 toast.success('Welcome back:' + state.user.name)
             })
             .addCase(loginUser.rejected, (state, action) => {
+                state.isLoading = false
+                toast.error(action.payload)
+            })
+            .addCase(updateUser.pending, (state, action) => {
+                state.isLoading = true
+            })
+            .addCase(updateUser.fulfilled, (state, action) => {
+                state.isLoading = false
+                state.user = action.payload.user
+                console.log(state.user)
+                setUserLocalStorage(action.payload.user)
+                toast.success('updated successfully')
+            })
+            .addCase(updateUser.rejected, (state, action) => {
                 state.isLoading = false
                 toast.error(action.payload)
             })
