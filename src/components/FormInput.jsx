@@ -1,17 +1,20 @@
-const FormInput = ({ label, type, size, name, value, handleChange }) => {
+const FormInput = ({ label, type, size, name, values, handleChange }) => {
     return (
-        <div className="form-control ">
-            <label htmlFor="" className="label capitalize">
-                <span className="label-text">{label}:</span>
+        <div className='form-control '>
+            <label htmlFor={name} className='label capitalize'>
+                <span className='label-text'>{label}:</span>
             </label>
             <input
+                id={name}
                 type={type}
-                className={`input input-bordered ${size} `}
+                className={`input input-bordered ${size}
+                focus:outline-1
+                focus:outline-primary focus:outline-offset-0`}
                 name={name}
-                value={value}
+                value={values}
                 onChange={(e) => handleChange(e)}
             />
         </div>
-    );
-};
-export default FormInput;
+    )
+}
+export default FormInput

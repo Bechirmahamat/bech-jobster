@@ -67,7 +67,7 @@ const userSlice = createSlice({
     reducers: {
         logout: (state, action) => {
             ;(state.user = null), setUserLocalStorage(null)
-            toast.error('Logout successfully')
+            if (action.payload) toast.error('Logout successfully')
         },
         openCloseModal: (state, action) => {
             state.isModalOpen = !state.isModalOpen

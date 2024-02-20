@@ -66,7 +66,7 @@ const DashboardNav = () => {
                             </Link>
                         </li>
                         <li>
-                            <button onClick={() => dispatch(logout())}>
+                            <button onClick={() => dispatch(logout('logout'))}>
                                 <CiLogout />
                                 <span>Logout</span>
                             </button>
